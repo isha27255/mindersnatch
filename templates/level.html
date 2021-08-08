@@ -19,7 +19,6 @@
 	<form method="POST" id="form-main" action="{% url 'situation' %}">
 		{% csrf_token %}
 		<input id="mainForm" type="text" value="hello" name="op_no" hidden>
-		<!-- <input type="submit" value="Submit" hidden> -->
 	</form>
 	<p class="question" id="question-text"> {{sitn.text}} </p>
 	<p class="name" hidden>{{user.name}}</p>

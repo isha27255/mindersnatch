@@ -1,6 +1,6 @@
 import sys
 import csv
-import datetime
+from datetime import datetime
 
 from django.urls.conf import path
 from . import models
@@ -14,6 +14,7 @@ from time import process_time, timezone
 from django.utils import timezone as t
 from django.http import HttpResponse
 from decouple import config
+
 
 curr_leaderboard = None
 
@@ -91,7 +92,9 @@ def ans_post(request, cur_level, tot_level):
         past_sitn = Situation.objects.get(situation_no=player.current_sitn)
         if past_sitn.sub == False:
             op_no = request.POST.get('op_no')
+            print(op_no)
             option_c = option.objects.get(id=op_no)
+            print(option_c)
             if option_c.end:
                 # player is dead redirect to start node
                 player.current_sitn = Situation.objects.get(
@@ -106,7 +109,7 @@ def ans_post(request, cur_level, tot_level):
                 # option is non terminating one player progresses to next level
                 player.current_sitn = option_c.next_sit
                 player.score += 1
-                player.timestamp = datetime.datetime.now()
+                player.timestamp = datetime.now()
                 sitn = Situation.objects.get(situation_no=option_c.next_sit)
                 player.level = sitn.level
                 player.save()
@@ -209,6 +212,7 @@ def answer(request):
     if activeTime(request) == 2:
         if player_check.level <= tot_level and player_check.level <= cur_level:
             if request.method == 'POST':
+                print("hereeee")
                 return ans_post(request, cur_level, tot_level)
             else:
                 return ans_nonpost(request)
